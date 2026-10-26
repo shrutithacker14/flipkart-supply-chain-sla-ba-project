@@ -1,0 +1,13 @@
+Product_ID,Product_Name,Category,Unit_Cost_INR,Selling_Price_INR,Handling_Class
+PRD-101,Smartphones & Tablets,Consumer Electronics,8400,11999,High-Value Fragile
+PRD-102,True Wireless Earbuds ANC,Consumer Electronics,1150,1999,Standard
+PRD-103,Smart Fitness Watch AMOLED,Consumer Electronics,1650,2999,Standard
+PRD-104,Stainless Steel Mixer Grinder 750W,Home & Kitchen,2100,3499,Heavy Parcel
+PRD-105,Tri-Ply Stainless Cookware Set,Home & Kitchen,1550,2699,Heavy Parcel
+PRD-106,RO+UV Water Purifier,Home & Kitchen,5200,8499,High-Value Fragile
+PRD-107,Men's Handloom Cotton Kurta,Apparel & Ethnic,480,1099,Soft Apparel
+PRD-108,Women's Embroidered Festive Saree,Apparel & Ethnic,1100,2499,Soft Apparel
+PRD-109,Running & Training Shoes,Footwear & Lifestyle,920,1899,Boxed Footwear
+PRD-110,Travel Laptop Backpack 35L,Footwear & Lifestyle,640,1399,Standard
+PRD-111,Ayurvedic Skincare Gift Hamper,Beauty & Wellness,520,1199,Fragile Liquid
+PRD-112,Cold-Pressed Wellness Oil Combo,Beauty & Wellness,680,1299,Fragile Liquid

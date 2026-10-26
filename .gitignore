@@ -1,0 +1,9 @@
+# Power BI local / temporary files
+*.pbix.autorecover
+*.pbit
+~$*.xlsx
+*.tmp
+*.log
+.DS_Store
+Thumbs.db
+.vscode/

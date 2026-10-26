@@ -1,0 +1,9 @@
+Warehouse_ID,Warehouse_Name,State,Region_Zone,Hub_Tier,RLS_Manager_Email,Target_Dispatch_SLA_Hours
+WH-GJ-01,Ahmedabad Mega Fulfillment Hub,Gujarat,West Zone,Tier-1 Hub,rls_west@example.com,22.0
+WH-GJ-02,Bhuj Kutch Regional Logistics Center,Gujarat,West Zone,Tier-2 Hub,rls_west@example.com,24.0
+WH-MH-01,Mumbai Bhiwandi SuperHub,Maharashtra,West Zone,Tier-1 Hub,rls_west@example.com,20.0
+WH-KA-01,Bengaluru Nelamangala Hub,Karnataka,South Zone,Tier-1 Hub,rls_south@example.com,21.0
+WH-TN-01,Chennai Sriperumbudur Hub,Tamil Nadu,South Zone,Tier-1 Hub,rls_south@example.com,23.0
+WH-DL-01,Delhi NCR Gurugram Air-Cargo Hub,Delhi NCR,North Zone,Tier-1 Hub,rls_north@example.com,19.0
+WH-RJ-01,Jaipur Vishwakarma Regional Hub,Rajasthan,North Zone,Tier-2 Hub,rls_north@example.com,24.0
+WH-TG-01,Hyderabad Shamshabad Central Hub,Telangana,South Zone,Tier-1 Hub,rls_south@example.com,22.0

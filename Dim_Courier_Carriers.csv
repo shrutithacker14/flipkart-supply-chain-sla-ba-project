@@ -1,0 +1,6 @@
+Carrier_ID,Carrier_Name,Service_Mode,Contract_Base_Cost_INR,Contract_OTIF_SLA_Pct,Historical_RTO_Benchmark_Pct
+CR-01,BlueDart Surface & Air,Express Air / Surface,135.0,92.0,2.5
+CR-02,Delhivery Pan-India,Surface Standard,98.0,88.0,4.5
+CR-03,Ecom Express Regional,Surface Economy,86.0,84.0,6.8
+CR-04,XpressBees FastTrack,Surface Priority,104.0,89.0,3.8
+CR-05,Shadowfax Hyperlocal,Same/Next-Day Express,118.0,91.0,3.1

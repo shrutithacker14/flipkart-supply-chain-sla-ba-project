@@ -1,0 +1,83 @@
+// Power BI DAX measure library — portfolio case study
+// Scenario: hypothetical Flipkart-style Indian e-commerce supply chain.
+// All records are synthetic; this is not an official Flipkart report or an affiliation.
+// Create the calendar as a New Table. Create each subsequent expression as a separate measure.
+
+// 1) Calendar table (Modeling > New table)
+Dim_Calendar =
+VAR MinDate = MINX ( ALL ( Fact_Order_Shipments ), Fact_Order_Shipments[Order_Date] )
+VAR MaxDate = MAXX ( ALL ( Fact_Order_Shipments ), Fact_Order_Shipments[Order_Date] )
+RETURN
+ADDCOLUMNS (
+    CALENDAR ( DATE ( YEAR ( MinDate ), MONTH ( MinDate ), 1 ), EOMONTH ( MaxDate, 0 ) ),
+    "Year", YEAR ( [Date] ),
+    "Month_Num", MONTH ( [Date] ),
+    "Month_Name", FORMAT ( [Date], "MMM" ),
+    "Year_Month", FORMAT ( [Date], "YYYY-MM" ),
+    "Fiscal_Year", "FY" & FORMAT ( YEAR ( EDATE ( [Date], 9 ) ), "0000" ),
+    "Fiscal_Quarter", "Q" & FORMAT ( ROUNDUP ( MOD ( MONTH ( [Date] ) - 4, 12 ) / 3 + 0.000001, 0 ) + 1, "0" ),
+    "Weekday_Name", FORMAT ( [Date], "dddd" ),
+    "Is_Weekend", WEEKDAY ( [Date], 2 ) >= 6
+)
+
+// 2) Financial measures
+Booked GMV (INR) = SUM ( Fact_Order_Shipments[Gross_Booked_GMV_INR] )
+
+Realized Net Revenue (INR) =
+CALCULATE ( SUM ( Fact_Order_Shipments[Realized_Revenue_INR] ), Fact_Order_Shipments[Delivery_Status] = "Delivered" )
+
+Total COGS (INR) = SUM ( Fact_Order_Shipments[COGS_INR] )
+
+Total Logistics Cost (INR) = SUM ( Fact_Order_Shipments[Total_Logistics_Cost_INR] )
+
+RTO and SLA Penalty Cost (INR) = SUM ( Fact_Order_Shipments[RTO_and_SLA_Penalty_INR] )
+
+Net Contribution Profit (INR) = SUM ( Fact_Order_Shipments[Net_Contribution_Profit_INR] )
+
+Net Contribution Margin % = DIVIDE ( [Net Contribution Profit (INR)], [Realized Net Revenue (INR)] )
+
+// 3) Time intelligence — mark Dim_Calendar[Date] as the Date table and relate it to Order_Date.
+Prior Month Realized Revenue (INR) = CALCULATE ( [Realized Net Revenue (INR)], DATEADD ( Dim_Calendar[Date], -1, MONTH ) )
+
+Realized Revenue MoM Growth % = DIVIDE ( [Realized Net Revenue (INR)] - [Prior Month Realized Revenue (INR)], [Prior Month Realized Revenue (INR)] )
+
+FYTD Realized Revenue (INR) = TOTALYTD ( [Realized Net Revenue (INR)], Dim_Calendar[Date], "31/03" )
+
+// 4) Operations / service measures
+Total Shipments = COUNTROWS ( Fact_Order_Shipments )
+
+Delivered Shipments = CALCULATE ( [Total Shipments], Fact_Order_Shipments[Delivery_Status] = "Delivered" )
+
+OTIF Shipments = CALCULATE ( [Total Shipments], Fact_Order_Shipments[Is_OTIF_Flag] = 1 )
+
+OTIF Rate % = DIVIDE ( [OTIF Shipments], [Total Shipments] )
+
+RTO Shipments = CALCULATE ( [Total Shipments], Fact_Order_Shipments[Delivery_Status] = "RTO (Undelivered Return)" )
+
+Overall RTO Rate % = DIVIDE ( [RTO Shipments], [Total Shipments] )
+
+COD Shipments = CALCULATE ( [Total Shipments], Fact_Order_Shipments[Payment_Mode] = "Cash on Delivery (COD)" )
+
+COD RTO Rate % = DIVIDE ( CALCULATE ( [Total Shipments], Fact_Order_Shipments[Payment_Mode] = "Cash on Delivery (COD)", Fact_Order_Shipments[Delivery_Status] = "RTO (Undelivered Return)" ), [COD Shipments] )
+
+UPI Shipments = CALCULATE ( [Total Shipments], Fact_Order_Shipments[Payment_Mode] = "UPI Pre-Paid" )
+
+UPI RTO Rate % = DIVIDE ( CALCULATE ( [Total Shipments], Fact_Order_Shipments[Payment_Mode] = "UPI Pre-Paid", Fact_Order_Shipments[Delivery_Status] = "RTO (Undelivered Return)" ), [UPI Shipments] )
+
+Average Dispatch Hours = AVERAGE ( Fact_Order_Shipments[Dispatch_Time_Hours] )
+
+Average Transit Days (Delivered) = CALCULATE ( AVERAGE ( Fact_Order_Shipments[Actual_Transit_Days] ), Fact_Order_Shipments[Delivery_Status] = "Delivered" )
+
+Cost per Shipment (INR) = DIVIDE ( [Total Logistics Cost (INR)], [Total Shipments] )
+
+// 5) Illustrative scenario model. This is an upper-bound scenario, not a forecast or realized saving.
+COD RTO Logistics Cost (INR) =
+CALCULATE ( [Total Logistics Cost (INR)], Fact_Order_Shipments[Payment_Mode] = "Cash on Delivery (COD)", Fact_Order_Shipments[Delivery_Status] = "RTO (Undelivered Return)" )
+
+Illustrative Cost Avoidance at 50% COD RTO Reduction (INR) = [COD RTO Logistics Cost (INR)] * 0.50
+
+OTIF Status Color Hex = SWITCH ( TRUE (), [OTIF Rate %] >= 0.88, "#16A34A", [OTIF Rate %] >= 0.80, "#D97706", "#DC2626" )
+
+// 6) Dynamic RLS: create role on Dim_Warehouses using this filter expression:
+// Dim_Warehouses[RLS_Manager_Email] = USERPRINCIPALNAME()
+// Test each role in Power BI Desktop and Power BI Service before publishing.
