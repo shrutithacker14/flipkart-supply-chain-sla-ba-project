@@ -59,12 +59,6 @@ One shipment-level fact table joins to four dimensions: Calendar, Warehouse, Car
 6. Configure and test RLS in a development workspace before publishing. Sample email addresses use `example.com` and are placeholders, not real identities.
 7. Record actual UAT outcomes only after executing tests in the completed Power BI report. The included workbook is a test plan, not proof of an executed test run.
 
-## Repository quality notes
-
-- No Power BI `.pbix` file is included; the repository contains the requirements, sample data, model artefacts, scripts and build instructions.
-- All business outcomes and savings are hypotheses until tested with reliable operational data and a controlled pilot.
-- Use the `DATA_QUALITY_AUDIT.md` as the source of truth for validation findings and limitations.
-
 ## Author
 
 **Shruti Thacker** — Business Analyst portfolio case study.
