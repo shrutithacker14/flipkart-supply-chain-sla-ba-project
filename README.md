@@ -65,14 +65,6 @@ One shipment-level fact table joins to four dimensions: Calendar, Warehouse, Car
 - All business outcomes and savings are hypotheses until tested with reliable operational data and a controlled pilot.
 - Use the `DATA_QUALITY_AUDIT.md` as the source of truth for validation findings and limitations.
 
-## Suggested interview walkthrough
-
-1. Explain the business problem and stakeholders.
-2. Show how each requirement maps to a KPI, visual and acceptance test.
-3. Explain the grain of the fact table and the star-schema relationships.
-4. Demonstrate data-quality checks and KPI reconciliation.
-5. Present one insight as a hypothesis, then explain how you would validate impact through a pilot.
-
 ## Author
 
 **Shruti Thacker** — Business Analyst portfolio case study.
